@@ -1,106 +1,128 @@
-from aiogram import Bot, Dispatcher, F  
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove, Message
-from aiogram.filters import Command
+from aiogram import Bot, Dispatcher, F
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, Message
 from random import choice
 import asyncio
 import os
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+if not BOT_TOKEN:
+    raise ValueError("BOT_TOKEN not found!")
+
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 kd = ReplyKeyboardMarkup(
-    Keyboard=[
+    keyboard=[
         [KeyboardButton(text="Меркурий")],
         [KeyboardButton(text="Венера")],
         [KeyboardButton(text="Земля")],
         [KeyboardButton(text="Марс")],
         [KeyboardButton(text="Юпитер")],
         [KeyboardButton(text="Сатурн")],
-        [KeyboardButton(text="Уран ")],
+        [KeyboardButton(text="Уран")],
         [KeyboardButton(text="Нептун")]
-        
-        
     ],
     resize_keyboard=True
-) 
+)
+
+mercisr = [
+    "Меркурій — найменша та найшвидша планета Сонячної системи",
+    "Меркурій розташований найближче до Сонця",
+    "Поверхня Меркурія вкрита кратерами і схожа на Місяць"
+]
+
+vvv = [
+    "Венера — найгарячіша планета Сонячної системи",
+    "Венера обертається навколо своєї осі у зворотному напрямку"
+]
+
+zamza = [
+    "71% поверхні Землі вкрито водою, але лише 3% з неї — прісна",
+    "Земля утворилася приблизно 4,54 мільярда років тому",
+    "Маса планети Земля становить приблизно 5,9722 × 10²⁴ кг"
+]
+
+mmm = [
+    "На Марсі розташована гора Олімп — це найвища гора Сонячної системи",
+    "Червоний колір Марса пояснюється великою кількістю оксиду заліза",
+    "Марсіанська доба триває 24 години 39 хвилин і 35 секунд"
+]
+
+jpj = [
+    "Юпітер у 11 разів ширший за Землю",
+    "Юпітер складається переважно з водню та гелію",
+    "На Юпітері понад 350 років вирує Велика червона пляма"
+]
+
+scs = [
+    "Кільця Сатурна складаються переважно з льоду, пилу та каміння",
+    "Сатурн має меншу густину, ніж вода",
+    "Один оберт Сатурна триває приблизно 10,7 години"
+]
+
+uren = [
+    "Вісь обертання Урана нахилена на 98 градусів",
+    "Температура атмосфери Урана може опускатися до −224°C"
+]
+
+npt = [
+    "Нептун робить один оберт навколо Сонця за 165 років",
+    "На Нептуні найсильніші вітри у Сонячній системі"
+]
 
 
-mercisr = ["Меркурій найменша та найшвидша планета Сонячної системи","Меркурій розташований найближче до Сонця"," Поверхня Меркурія вкрита кратерами і схожа на Місяць"]
-
+@dp.message(F.text == "/start")
+async def start_handler(message: Message):
+    await message.answer(
+        "Оберіть планету:",
+        reply_markup=kd
+    )
 
 
 @dp.message(F.text == "Меркурий")
-async def on(message: Message):
+async def mercury_handler(message: Message):
     await message.answer(choice(mercisr))
 
 
-vvv = ["найгарячіша планета Сонячної системи ","Венера обертається навколо своєї осі у зворотному напрямку "]
-
 @dp.message(F.text == "Венера")
-async def on(message: Message):
+async def venus_handler(message: Message):
     await message.answer(choice(vvv))
 
 
-
-zamza = ["71% поверхні Землі вкрито водою, але лише 3% з неї — прісна","Земля утворилася приблизно 4,54 мільярда років тому","Маса планети Земля становить приблизно 5,9722  кілограмів"]
-
-
-
-
 @dp.message(F.text == "Земля")
-async def on(message: Message):
+async def earth_handler(message: Message):
     await message.answer(choice(zamza))
 
 
-
-mmm = ["На Марсі розташована гора Олімп це найвища гора Сонячної системи","Свій червоний колір планета має через високий вміст оксиду заліза (іржі) у ґрунті, який вкриває її поверхню.","Марсіанська доба  Марсіанська доба (її називають «сол») триває 24 години 39 хвилин і 35 секунд"]
-
-
 @dp.message(F.text == "Марс")
-async def on(message: Message):
+async def mars_handler(message: Message):
     await message.answer(choice(mmm))
 
 
-
-jpj = ["Юпитер в 11 раз шире Земли по диаметру ","Юпитер состоит преимущественно из водорода и гелия"," На Юпитере уже более 350 лет бушует колоссальный шторм, известный как Большое красное пятно, размер которого превышает размеры Земли"]
-
-
 @dp.message(F.text == "Юпитер")
-async def on(message: Message):
+async def jupiter_handler(message: Message):
     await message.answer(choice(jpj))
 
-scs = ["Знаменитые кольца Сатурна состоят в основном из водяного льда, пыли и камней.","Сатурн — единственная планета в Солнечной системе, средняя плотность которой меньше плотности воды","Сатурн невероятно быстро вращается вокруг своей оси. Один оборот занимает всего около 10,7 земных часов"]
 
 @dp.message(F.text == "Сатурн")
-async def on(message: Message):
+async def saturn_handler(message: Message):
     await message.answer(choice(scs))
 
 
-
-
-uren = ["Ось вращения Урана наклонена на рекордные 98 градусов","Хотя Урана это газовый гигант, температура в его верхних слоях атмосферы опускается до -224 градусов "]
-
-
-
 @dp.message(F.text == "Уран")
-async def on(message: Message):
+async def uranus_handler(message: Message):
     await message.answer(choice(uren))
 
 
-
-npt = ["Один оберт навколо Сонця Нептун робить за 165 земних років","На Нептуні дмуть найпотужніші вітри в усій Сонячній системі. Швидкість ураганів сягає колосальних 2100 км/год "]
-
-
-
 @dp.message(F.text == "Нептун")
-async def on(message: Message):
+async def neptune_handler(message: Message):
     await message.answer(choice(npt))
-
 
 
 async def main():
     await dp.start_polling(bot)
-    
-asyncio.run(main())
 
+
+if __name__ == "__main__":
+    asyncio.run(main())
